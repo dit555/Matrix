@@ -68,7 +68,7 @@ int Matrix::cols(){
 
 type Matrix::getType(){
 //TODO
-	return INT;
+	return 0;
 }
 
 void Matrix::print(){
