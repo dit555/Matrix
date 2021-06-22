@@ -1,3 +1,10 @@
+/*
+ * cpp file for Matrix:
+ * This file contains the implemented functions for Matrix
+ * Written By Dumitru Chiriac
+ * github: https://github.com/dit555/Matrix  
+ */
+
 #include "Matrix.h"
 
 Matrix::Matrix (){

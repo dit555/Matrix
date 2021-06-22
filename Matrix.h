@@ -1,3 +1,9 @@
+/*
+ * Header file for Matrix:
+ * This file contains the definitions of Matrix
+ * Written By Dumitru Chiriac
+ * github: https://github.com/dit555/Matrix  
+ */
 
 #ifndef __MATRIX__
 #define __MATRIX__
