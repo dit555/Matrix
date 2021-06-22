@@ -1,5 +1,4 @@
 run:
-	@echo "running test"
 	@g++ test.cpp Matrix.cpp
 	@./a.out
 	@rm a.out

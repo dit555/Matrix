@@ -98,7 +98,7 @@ int Matrix::get(int row, int col){
 
 float Matrix::getf(int row, int col){
 //TODO
-	return 0.0;
+	return (float)0.0;
 }
 
 void Matrix::set(int row, int col, int val){
