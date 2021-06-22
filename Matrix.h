@@ -15,7 +15,7 @@ const type RAND = 101; //number code for random, type of matrix is float
 class Matrix {
 	public:
 		//constructors
-		Matrix() {}; //init empty matrix
+		Matrix(); //init empty matrix
 		Matrix(Matrix* m); //copy matrix
 		Matrix(int rows, int cols); //init Matrix of rows x cols dim
 		Matrix(int rows, int cols, type t); //init Matrix of rows x cols dim of specified type
@@ -53,12 +53,12 @@ class Matrix {
 		Matrix* matmul(Matrix* a, Matrix* b); //mulitiply matrixes
 
 		//operator overloads
-		Matrix operator= (Matrix); //assign operator overload
-		Matrix operator== (Matrix); //equals operator overload
-		Matrix operator+ (Matrix); //addition operator overload
-		Matrix operator- (Matrix); //subtraction operator overload
-		Matrix operator* (Matrix); //mult operator overload
-		Matrix operator/ (Matrix); //division operator overload
+		Matrix* operator= (Matrix); //assign operator overload
+		Matrix* operator== (Matrix); //equals operator overload
+		Matrix* operator+ (Matrix); //addition operator overload
+		Matrix* operator- (Matrix); //subtraction operator overload
+		Matrix* operator* (Matrix); //mult operator overload
+		Matrix* operator/ (Matrix); //division operator overload
 		
 		//destructor
 		~Matrix(); //destructor

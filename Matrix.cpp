@@ -1,7 +1,6 @@
 #include "Matrix.h"
 
 Matrix::Matrix (){
-//TOD0
 
 }
 
@@ -25,7 +24,7 @@ Matrix::Matrix (int rows, int cols, int i){
 
 }
 
-Matrix::Matrix (int rows, int cols, int f){
+Matrix::Matrix (int rows, int cols, float f){
 //TODO
 
 }
@@ -107,13 +106,13 @@ void Matrix::set(int row, int col, float val){
 
 int** Matrix::array(){
 //TODO
-  	int a[1][1];
+  	int** a;
 	return a;
 }
 
-float** Matrix::array(){
+float** Matrix::arrayf(){
 //TODO
-	float a[1][1];
+	float** a;
 	return a;
 }
 
@@ -134,14 +133,75 @@ int Matrix::equals(Matrix* a, Matrix* b){
 
 Matrix* Matrix::pow(float p){
 //TODO	
-	Matrix* a = new Matrix;
-	return a;
+	Matrix* c = new Matrix;
+	return c;
 }
 
 Matrix* Matrix::transpose(){
 //TODO
-	Matrix* a = new Matrix;
-	return a;
+	Matrix* c = new Matrix;
+	return c;
 }
 
+Matrix* Matrix::inverse(){
+//TODO
+	Matrix* c = new Matrix;
+	return c;
+}
 
+Matrix* Matrix::add(Matrix* a, Matrix* b){
+//TODO
+	Matrix* c = new Matrix;
+	return c;
+}
+
+Matrix* Matrix::sub(Matrix* a, Matrix* b){
+//TODO
+	Matrix* c = new Matrix;
+	return c;
+}
+
+Matrix* Matrix::matmul(Matrix* a, Matrix* b){
+//TODO
+	Matrix* c = new Matrix;
+	return c;
+}
+
+Matrix* Matrix::operator= (Matrix a){
+//TODO
+	Matrix* c = new Matrix;
+	return c;
+}
+Matrix* Matrix::operator== (Matrix a){
+//TODO
+	Matrix* c = new Matrix;
+	return c;
+}
+
+Matrix* Matrix::operator+ (Matrix a){
+//TODO
+	Matrix* c = new Matrix;
+	return c;
+}
+
+Matrix* Matrix::operator- (Matrix a){
+//TODO
+	Matrix* c = new Matrix;
+	return c;
+}
+
+Matrix* Matrix::operator* (Matrix a){
+//TODO
+	Matrix* c = new Matrix;
+	return c;
+}
+
+Matrix* Matrix::operator/ (Matrix a){
+//TODO
+	Matrix* c = new Matrix;
+	return c;
+}
+
+Matrix::~Matrix(){
+
+}
