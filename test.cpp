@@ -8,7 +8,7 @@
 #include <iostream>
 
 #include "Matrix.h"
-#include "tests.h"
+#include "test.h"
 
 using std::cout;
 using std::endl;

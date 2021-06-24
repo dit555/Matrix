@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include <string>
-#include <assert.h>
 
 #include "Matrix.h"
 
@@ -102,38 +101,63 @@ void test_valuedec(){
 	Matrix* b = new Matrix(5, 5, test_f);
 
 	t("test_valuedec", "INT values");
-	int bad = 0; //flag for bad values
 	for(int rows = 0; rows < a->rows(); rows++){
 		for (int cols = 0; cols < a->cols(); cols++){
 			cout << a->get(rows, cols) << endl;
 			if (a->get(rows, cols) != test_i){
 				f();
-				bad = 1;
-				cout << "bad\n";
+				e("one of the INT values does not match");
+				cout << "matrix at " << rows << "," << cols << "!= " << test_i << endl;
 				break;
 			}
 		}
 	}	
-	if (bad) {f(); e("one of the int values did not match");}
-	else if (a->rows() != 0 && a->cols() != 0) s(); 
+	if (a->rows() != 0 && a->cols() != 0) s(); 
 	else {f(); e("rows or cols = 0");}
 
 	t("test_valuedec", "FLOAT values");
-	bad = 0; //flag for bad values
 	for(int rows = 0; rows < b->rows(); rows++){
 		for (int cols = 0; cols < b->cols(); cols++){
 			if (b->getf(rows, cols) != test_f){
 				f();
-				bad = 1;
+				e("one of the FLOAT values does not match");
+				cout << "matrix at " << rows << "," << cols << "!= " << test_f << endl;
 				break;
 			}
 		}
 	}
-	if (bad) {f(); e("one of the float values did not match");}
-	else if (b->rows() != 0 && b->cols() != 0) s(); 
+	if (b->rows() != 0 && b->cols() != 0) s(); 
 	else {f(); e("rows or cols = 0");}
 }
 
+void test_arrange(){
+	//test the arrage type code
+	Matrix* a = new Matrix(100,1, ARRANGE);
+	t("test_arrange", "type INT");
+	if (a->getType() == INT)
+		s();
+	else {f(); e("matrix is not of type INT");}
+
+	t("test_arrange", "correct values");
+	int i = 0; //iterates every index, follows the expected behavior of arrange
+	int bad = 0; //flag for bad values
+	for (int rows = 0; rows < a->rows(); rows++){
+		for (int cols = 0; cols < a->cols(); cols++){
+			if (i != a->get(rows, cols)){
+				bad = 1;
+				f();
+				e("one of the values did not match");
+				cout << "expected: " << "matrix at " << rows << "," << cols << "==" << i << 
+					", matrix at " << rows << "," << cols << "=" << a->get(rows,cols) << endl;
+				break;
+			}
+			i++;
+		}
+	}
+	if(a->rows() != 0 && a->cols() != 0) s();
+	else {f(); e("either row or col is 0");}
+
+}
 
 void test_randdec(){
 	//test the random declaration
@@ -153,35 +177,47 @@ void test_randdec(){
 
 
 	t("test_randec", "values in bounds (1)");
-	int bad = 0; //flag for bad values
 	for(int rows = 0; rows < a->rows(); rows++){
 		for (int cols = 0; cols < a->cols(); cols++){
 			if (a->getf(rows, cols) < mean1 - rand1 || a->getf(rows,cols) > mean1 + rand1){
 				f();
-				bad = 1;
+				e("one of the random values is out of bounds");
+				cout << "Matrix at " << rows << "," << cols << ", result found: "; 
+				cout << mean1 - rand1 << " <= " << a->getf(rows,cols) << " <= ";
+				cout << mean1 + rand1 << endl;
 				break;
 			}
 		}
 	}
-	if (bad) { f(); e("one of the values was out of bounds");}
-	else if (a->rows() != 0 && a->cols() != 0) s();
+	if (a->rows() != 0 && a->cols() != 0) s();
 	else {f(); e("rows or cols = 0");}
 
 	t("test_randec", "values in bounds (2)");
-	bad = 0; //flag for bad values
 	for(int rows = 0; rows < b->rows(); rows++){
 		for (int cols = 0; cols < b->cols(); cols++){
 			if (b->getf(rows, cols) < mean1 - rand1 || b->getf(rows,cols) > mean1 + rand1){
 				f();
-				bad = 1;
+				e("one of the random values is out of bounds");
+				cout << "Matrix at " << rows << "," << cols << ", result found: ";
+				cout << mean2 - rand2 << " <= " << b->getf(rows,cols);
+			       	cout << " <= " << mean2 + rand2 << endl;
 				break;
 			}
 		}
 	}
-	if (bad) { f(); e("one of the values was out of bounds");}
-	else if (b->rows() != 0 && b->cols() != 0) s();
+	if (b->rows() != 0 && b->cols() != 0) s();
 	else {f(); e("rows or cols = 0");}
 	
+}
+
+void test_settype(){
+	//test converting matrix from INT to Float and vice versa
+	int test_i = 5;
+	float test_f = 6;
+	Matrix* a = new Matrix(2,3,test_i);
+	Matrix* b = new Matrix(2,3,test_f);
+
+	t("test_settype", "INT to FLOAT");
 }
 
 //test controller
@@ -193,8 +229,10 @@ void tests(){
 	test_rowcol();
 	test_typedec();
 	test_valuedec();
+	test_arrange();
 	test_randdec();
+	test_settype();
 
-	cout << "--------------------------------------------" << endl;
+	cout << endl << "--------------------------------------------" << endl;
 	cout <<"\033[1;34m" <<  success << "\033[0m" << " out of " << "\033[1;34m" << total_tests << "\033[0m"  << " tests succeded" << endl << endl;
 }

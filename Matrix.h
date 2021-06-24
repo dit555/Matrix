@@ -39,11 +39,11 @@ class Matrix {
 		void print(); //prints matrix
 		void setType(type t); //set type of Matrix
 		void fill(int i); //fill all values of Matrix with i (int)
-		void fill(float f); //fill all values of Matrix with f (float)
+		void fillf(float f); //fill all values of Matrix with f (float)
 		int get(int row, int col); //return value as int
 		float getf(int row, int col); //return value of float
 		void set(int row, int col, int val); //set value in Matrix to val
-		void set(int row, int col, float val); //set value in Matrix to val
+		void setf(int row, int col, float val); //set value in Matrix to val
 		int** array(); //return Matrix as an int array
 		float** arrayf(); //return Matrix as a float array
 		

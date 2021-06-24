@@ -86,7 +86,7 @@ void Matrix::fill(int i){
 
 }
 
-void Matrix::fill(float f){
+void Matrix::fillf(float f){
 //TODO
 
 }
@@ -106,7 +106,7 @@ void Matrix::set(int row, int col, int val){
 
 }
 
-void Matrix::set(int row, int col, float val){
+void Matrix::setf(int row, int col, float val){
 //TODO
 
 }
