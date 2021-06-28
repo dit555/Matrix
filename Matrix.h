@@ -12,8 +12,9 @@
 typedef unsigned int type;
 
 //type codes
-const type INT = 1; 	//type code for interger type
-const type FLOAT = 2; 	//type code for float type
+const type EMPTY = 0; //type for empty matrix
+const type INT = 1; //type code for interger type
+const type FLOAT = 2; //type code for float type
 
 //other type codes (modifiers)
 //init mods
