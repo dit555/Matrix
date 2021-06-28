@@ -38,6 +38,7 @@ void e(string msg){
 	cout << "\033[1;33m" << msg << endl << " --------  " << "\033[0m" << endl;
 }	
 //start tests
+//Constructor tests:
 void test_declare(){
 	//test wheter Matrix can be declared empty
 	Matrix* a = new Matrix;
@@ -106,6 +107,7 @@ void test_valuedec(){
 	Matrix* a = new Matrix(5, 5, test_i);
 	Matrix* b = new Matrix(5, 5, test_f);
 
+	int bad = 0; //flag for bad test
 	t("test_valuedec", "INT values");
 	for(int rows = 0; rows < a->rows(); rows++){
 		for (int cols = 0; cols < a->cols(); cols++){
@@ -114,13 +116,15 @@ void test_valuedec(){
 				f();
 				e("one of the INT values does not match");
 				cout << "matrix at " << rows << "," << cols << "!= " << test_i << endl;
+				bad = 1;
 				break;
 			}
 		}
 	}	
-	if (a->rows() != 0 && a->cols() != 0) s(); 
-	else {f(); e("rows or cols = 0");}
+	if (a->rows() != 0 && a->cols() != 0 && bad != 1) s(); 
+	else if (bad != 1) {f(); e("rows or cols = 0");}
 
+	bad = 0;
 	t("test_valuedec", "FLOAT values");
 	for(int rows = 0; rows < b->rows(); rows++){
 		for (int cols = 0; cols < b->cols(); cols++){
@@ -128,12 +132,13 @@ void test_valuedec(){
 				f();
 				e("one of the FLOAT values does not match");
 				cout << "matrix at " << rows << "," << cols << "!= " << test_f << endl;
+				bad = 1;
 				break;
 			}
 		}
 	}
-	if (b->rows() != 0 && b->cols() != 0) s(); 
-	else {f(); e("rows or cols = 0");}
+	if (b->rows() != 0 && b->cols() != 0 && bad != 1) s(); 
+	else if (bad != 1) {f(); e("rows or cols = 0");}
 
 	delete a;
 	delete b;
@@ -146,6 +151,7 @@ void test_arrange(){
 	if (a->getType() == INT)
 		s();
 	else {f(); e("matrix is not of type INT");}
+
 
 	t("test_arrange", "correct values");
 	int i = 0; //iterates every index, follows the expected behavior of arrange
@@ -164,7 +170,7 @@ void test_arrange(){
 		}
 	}
 	if(a->rows() != 0 && a->cols() != 0) s();
-	else {f(); e("either row or col is 0");}
+	else if (bad != 1) {f(); e("either row or col is 0");}
 
 	delete a;
 }
@@ -185,7 +191,7 @@ void test_randdec(){
 	}
 	else {f(); e("type is not float");}
 
-
+	int bad = 0; //flag for bad test
 	t("test_randec", "values in bounds (1)");
 	for(int rows = 0; rows < a->rows(); rows++){
 		for (int cols = 0; cols < a->cols(); cols++){
@@ -195,13 +201,15 @@ void test_randdec(){
 				cout << "Matrix at " << rows << "," << cols << ", result found: "; 
 				cout << mean1 - rand1 << " <= " << a->getf(rows,cols) << " <= ";
 				cout << mean1 + rand1 << endl;
+				bad = 1;
 				break;
 			}
 		}
 	}
 	if (a->rows() != 0 && a->cols() != 0) s();
-	else {f(); e("rows or cols = 0");}
+	else if (bad != 1) {f(); e("rows or cols = 0");}
 
+	bad = 0;
 	t("test_randec", "values in bounds (2)");
 	for(int rows = 0; rows < b->rows(); rows++){
 		for (int cols = 0; cols < b->cols(); cols++){
@@ -211,16 +219,21 @@ void test_randdec(){
 				cout << "Matrix at " << rows << "," << cols << ", result found: ";
 				cout << mean2 - rand2 << " <= " << b->getf(rows,cols);
 			       	cout << " <= " << mean2 + rand2 << endl;
+				bad = 1;
 				break;
 			}
 		}
 	}
 	if (b->rows() != 0 && b->cols() != 0) s();
-	else {f(); e("rows or cols = 0");}
+	else if (bad != 1) {f(); e("rows or cols = 0");}
 	
 	delete a;
 	delete b;
 }
+//end constructor tests
+//##############################################################################
+//start basic operations tests:
+//skip tests for rows(), cols(), and getType() as they are used in other tests
 
 void test_settype(){
 	//test converting matrix from INT to Float and vice versa
@@ -253,6 +266,51 @@ void test_settype(){
 	delete b;
 }
 
+void test_fill(){
+	int fill_i = 4;
+	float fill_f = 5.7;
+	Matrix* c = new Matrix(1,3,INT);
+	Matrix* d = new Matrix(5,6, FLOAT);
+	
+	int bad = 0; //flag for bad test
+	t("test_fill()", "fill with INT on INT matrix");
+	c->fill(fill_i);
+	for (int i = 0; i < c->rows(); i++){
+		for (int j = 0; j < c->cols(); j++){
+			if(c->get(i,j) != fill_i){
+				f();
+				e("did not get the correct value for INT");
+				cout << "expected: " << fill_i << " but got: " << c->get(i,j) << " at " << i << "," << j << endl;
+				bad = 1;
+				break;
+			}
+		}		
+	}
+	if (c->rows() != 0 && c->cols() != 0 && bad != 1) {s();} 
+	else if (bad != 1) {f(); e("either rows or cols is 0");}
+	bad = 0;
+	
+	t("test_fill()", "fill with FLOAT on FLOAT matrix");
+	d->fillf(fill_f);
+	for (int i = 0; i < d->rows(); i++){
+		for (int j = 0; j < d->cols(); j++){
+			if(d->get(i,j) != fill_i){
+				f();
+				e("did not get the correct value for FLOAT");
+				cout << "expected: " << fill_i << " but got: " << d->get(i,j) << " at " << i << "," << j << endl;
+				bad = 1;
+				break;
+			}
+		}		
+	}
+	if (c->rows() != 0 && c->cols() != 0 && bad != 1) {s();} 
+	else if (bad != 1) {f(); e("either rows or cols is 0");}
+	delete c;
+	delete d;
+	
+}
+//end basic operations tests
+//######################################################################
 //test controller
 void tests(){
 	cout << "beginning tests" << endl;
