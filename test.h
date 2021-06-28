@@ -47,6 +47,8 @@ void test_declare(){
 		e("a is nullptr\n");
 	}
 	else s();
+
+	delete a;
 }
 
 void test_rowcol(){
@@ -58,6 +60,7 @@ void test_rowcol(){
 	}
 	else {f(); e("rows or cols do not match");}
 	
+	delete a;
 }
 
 void test_typedec(){
@@ -91,6 +94,9 @@ void test_typedec(){
 		s();
 	}
 	else {f(); e("matrix is not of type FLOAT");}
+
+	delete a;
+	delete b;
 }
 
 void test_valuedec(){
@@ -128,6 +134,9 @@ void test_valuedec(){
 	}
 	if (b->rows() != 0 && b->cols() != 0) s(); 
 	else {f(); e("rows or cols = 0");}
+
+	delete a;
+	delete b;
 }
 
 void test_arrange(){
@@ -157,6 +166,7 @@ void test_arrange(){
 	if(a->rows() != 0 && a->cols() != 0) s();
 	else {f(); e("either row or col is 0");}
 
+	delete a;
 }
 
 void test_randdec(){
@@ -208,6 +218,8 @@ void test_randdec(){
 	if (b->rows() != 0 && b->cols() != 0) s();
 	else {f(); e("rows or cols = 0");}
 	
+	delete a;
+	delete b;
 }
 
 void test_settype(){
@@ -217,7 +229,28 @@ void test_settype(){
 	Matrix* a = new Matrix(2,3,test_i);
 	Matrix* b = new Matrix(2,3,test_f);
 
+
 	t("test_settype", "INT to FLOAT");
+	a->setType(FLOAT);
+	if (a->getType() == FLOAT){
+		s();
+	}
+	else{
+		f();
+		e("type did not set to FlOAT");
+	}
+
+	t("set_settype", "FLOAT to INT");
+	b->setType(INT);
+	if (b->getType() == INT){
+		s();
+	}
+	else {
+		f();
+		e("type did not set to INT");
+	}
+	delete a;
+	delete b;
 }
 
 //test controller

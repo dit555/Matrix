@@ -8,15 +8,26 @@
 #ifndef __MATRIX__
 #define __MATRIX__
 
+//chose to do this instead of an enum to seprate it from int.
 typedef unsigned int type;
 
 //type codes
-const type INT = 1; //type code for interger type
-const type FLOAT = 2; //type code for float type
+const type INT = 1; 	//type code for interger type
+const type FLOAT = 2; 	//type code for float type
 
-//other type codes
-const type ARRANGE = 100; //number code for arrange, type of matrix is int
-const type RAND = 101; //number code for random, type of matrix is float
+//other type codes (modifiers)
+//init mods
+const type ARRANGE = 100; //number code for arrange, type of matrix is INT
+const type RAND = 101; //number code for random, type of matrix is FLOAT
+const type CHECKER = 102; //number code for checker, type of matrix is INT
+const type CHECKER_2 = 103; //number code fore checker_2, type of matrix is INT
+
+//append mods
+const type DOWN = 104; //append down
+const type UP = 105; //append up
+const type LEFT = 106; //append left
+const type RIGHT = 107; //apend right
+
 
 class Matrix {
 	public:
@@ -46,11 +57,14 @@ class Matrix {
 		void setf(int row, int col, float val); //set value in Matrix to val
 		int** array(); //return Matrix as an int array
 		float** arrayf(); //return Matrix as a float array
-		
+		int equals(Matrix* a, Matrix* b); //check if matrixes are the same
+		Matrix* append(Matrix* a, type dir); //apends matrix a to current, type changes direction
+		Matrix* subMat(int row1, int col1, int row2, int col2); //returns a submatrix in the bounds given
+		Matrix* tile(Matrix* a); //returns a matrix that is a tiling of this by Matrix a
+
 		//operations
 		int determinant(); //get determinant of matrix as int
 		float determinantf(); //get determinant of matrix as float
-		int equals(Matrix* a, Matrix* b); //check if matrixes are the same
 		Matrix* pow(float p); //each value to the power of p
 		Matrix* transpose(); //return a new matrix that is the transpose of current matrix
 	       	Matrix* inverse(); //returns inverse matrix

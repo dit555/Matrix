@@ -123,17 +123,35 @@ float** Matrix::arrayf(){
 	return a;
 }
 
+int Matrix::equals(Matrix* a, Matrix* b){
+//TODO
+	return 0;
+}
+
+Matrix* Matrix::append(Matrix* a, type dir){
+//TODO	
+	Matrix* c = new Matrix;
+	return c;
+}
+
+Matrix* subMat(int row1, int col1, int row2, int col2){
+//TODO
+	Matrix* c = new Matrix;
+	return c;
+}	
+
+Matrix* tile(Matrix* a){
+//TODO
+	Matrix* c = new Matrix;
+	return c;
+}
+
 int Matrix::determinant(){
 //TODO
 	return 0;
 }
 
 float Matrix::determinantf(){
-//TODO
-	return 0;
-}
-
-int Matrix::equals(Matrix* a, Matrix* b){
 //TODO
 	return 0;
 }
