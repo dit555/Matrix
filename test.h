@@ -309,6 +309,61 @@ void test_fill(){
 	delete d;
 	
 }
+
+void test_set(){ //skip get() becuse its used in other tests
+	Matrix* a = new Matrix(4,5, (int)3);
+	Matrix* b = new Matrix(3,4, (float)6);
+	
+	a->set(3,4,6);
+	b->setf(1,2, 4.5);
+
+	t("test_set", "set INT to other INT");
+	if (a->get(4,5) == 6){
+		s();
+	}
+	else{
+		f();
+		e("did not get expected value");
+		cout << "got: " << a->get(3,4) << " ,but expected: 6" << endl;
+	}
+
+	t("test_set", "set FLOAT to other FLOAT");
+	if (b->getf(3,4) == 4.5){
+		s();
+	}
+	else{
+		f();
+		e("did not get expected value");
+		cout << "got: " << b->get(3,4) << " ,but expected: 4.5" << endl;
+	}
+
+	delete a;
+	delete b;
+}
+
+void test_equals(){
+	Matrix* a = new Matrix(3,4, ARRANGE);
+	Matrix* b = new Matrix(3,4, ARRANGE);
+	Matrix* c = new Matrix(4,5, ARRANGE);
+	
+	t("test_equals","two equal matrixes");
+	if( a->equals(b)){
+		s();
+	}
+	else {f();e("matrixes did not equal when they should have");}
+
+	t("test_equals","two unequal mtrixes");
+	if (!a->equals(c)){
+		s();
+	}
+	else {f(); e("matrixes equalled each other when they shouldn't have");}
+	
+	delete a;
+	delete b;
+	delete c;
+
+
+}
 //end basic operations tests
 //######################################################################
 //test controller
@@ -323,6 +378,8 @@ void tests(){
 	test_arrange();
 	test_randdec();
 	test_settype();
+	test_fill();
+	test_set();
 
 	cout << endl << "--------------------------------------------" << endl;
 	cout <<"\033[1;34m" <<  success << "\033[0m" << " out of " << "\033[1;34m" << total_tests << "\033[0m"  << " tests succeded" << endl << endl;

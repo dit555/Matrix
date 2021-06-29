@@ -58,12 +58,13 @@ class Matrix {
 		void setf(int row, int col, float val); //set value in Matrix to val
 		int** array(); //return Matrix as an int array
 		float** arrayf(); //return Matrix as a float array
-		int equals(Matrix* a, Matrix* b); //check if matrixes are the same
+		int equals(Matrix* a); //check if matrixes are the same
+		
+		
+		//opertaions
 		Matrix* append(Matrix* a, type dir); //apends matrix a to current, type changes direction
 		Matrix* subMat(int row1, int col1, int row2, int col2); //returns a submatrix in the bounds given
 		Matrix* tile(Matrix* a); //returns a matrix that is a tiling of this by Matrix a
-
-		//operations
 		int determinant(); //get determinant of matrix as int
 		float determinantf(); //get determinant of matrix as float
 		Matrix* pow(float p); //each value to the power of p

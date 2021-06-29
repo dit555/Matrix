@@ -123,7 +123,7 @@ float** Matrix::arrayf(){
 	return a;
 }
 
-int Matrix::equals(Matrix* a, Matrix* b){
+int Matrix::equals(Matrix* a){
 //TODO
 	return 0;
 }
