@@ -5,10 +5,18 @@
  * github: https://github.com/dit555/Matrix  
  */
 
+#include <iostream>
+#include <stdlib.h> // for random numbers
+#include <time.h> // for random numbers
+
+
 #include "Matrix.h"
 
-Matrix::Matrix (){
+using std::cout;
+using std::endl;
 
+Matrix::Matrix (){
+	t = EMPTY;
 }
 
 Matrix::Matrix (Matrix* m){
@@ -16,28 +24,105 @@ Matrix::Matrix (Matrix* m){
 
 }
 
-Matrix::Matrix (int rows, int cols){
-//TODO
+Matrix::Matrix (const int rows, const int cols){
+	aI = new int*[rows];
+	for(int i = 0; i < rows; i++)
+		aI[i] = new int[cols];
+	r = rows;
+	c = cols;
+}
+
+Matrix::Matrix (const int rows, const int cols, type typ){
+	if(typ == INT){
+		aI = new int*[rows];
+		for(int i = 0; i < rows; i++)
+			aI[i] = new int[cols];
+		t = INT;
+	}
+	else if (typ == FLOAT){
+		aF = new float*[rows];
+		for(int i = 0; i < rows; i++)
+			aF[i] = new float[cols];
+		t = FLOAT;
+	}
+	else if (typ == ARRANGE){
+		t = INT;
+		aI = new int*[rows];
+		int a = 1;
+		for(int i = 0; i < rows; i++){
+			aI[i] = new int[cols];
+		}
+
+		for(int row = 0; row < rows; row++){
+			for (int col = 0; col < cols; col++){
+				aI[row][col] = a;
+				a++;
+			}
+		}
+	}
+
+	r = rows;
+	c = cols;
+}
+
+Matrix::Matrix (const int rows, const int cols, int i){
+	aI = new int*[rows];
+	for(int l = 0; l < rows; l++)
+		aI[l] = new int[cols];
+	r = rows;
+	c = cols;
+	t = INT;
+	for (int l = 0; l < r; l++){
+		for (int j = 0; j < c;j++){
+			aI[l][j] = i;
+		}
+	}
 
 }
 
-Matrix::Matrix (int rows, int cols, type t){
-//TODO
+Matrix::Matrix (const int rows, const int cols, float f){
+	aF = new float*[rows];
+	for(int i = 0; i < rows; i++)
+		aF[i] = new float[cols];
+	r = rows;
+	c = cols;
+	t = FLOAT;
+	for (int l = 0; l < r; l++){
+		for (int j = 0; j < c;j++){
+			aF[l][j] = f;
+		}
+	}
+
+
 
 }
 
-Matrix::Matrix (int rows, int cols, int i){
-//TODO
+Matrix::Matrix (const int rows, const int cols, type typ, float mean, float std){
+	aF = new float*[rows];
+	for(int i = 0; i < rows; i++)
+		aF[i] = new float[cols];
+	r = rows;
+	c = cols;
+	t = FLOAT;
+	srand(time(NULL));
+	for (int l = 0; l < r; l++){
+		for (int j = 0; j < c;j++){
+			//generate a number
+			float temp = (float)rand() / RAND_MAX; //generates numbers between 0.0 and 1.0
+			//decide if below or above mean
+			float m = mean;
+			int neg = rand() % 2 ;
+			if (neg == 0){
+				m -= temp * std;
+			}
+			else
+				m += temp * std;
+		
+			aF[l][j] = m;
+		}
+	}
 
-}
 
-Matrix::Matrix (int rows, int cols, float f){
-//TODO
-
-}
-
-Matrix::Matrix (int rows, int cols, type t, float mean, float std){
-//TODO
 
 }
 
@@ -57,18 +142,15 @@ Matrix::Matrix (Matrix* a, float b){
 }
 
 int Matrix::rows(){
-//TODO
-	return 0;
+	return r;
 }
 
 int Matrix::cols(){
-//TODO
-	return 0;
+	return c;
 }
 
 type Matrix::getType(){
-//TODO
-	return 0;
+	return t;
 }
 
 void Matrix::print(){
@@ -92,17 +174,22 @@ void Matrix::fillf(float f){
 }
 
 int Matrix::get(int row, int col){
-//TODO
-	return 0;
+	if (t == INT)
+		return aI[row][col];
+	else if (t == FLOAT)
+		return (int)aF[row][col];
 }
 
 float Matrix::getf(int row, int col){
-//TODO
-	return (float)0.0;
+	if (t == FLOAT)
+		return aF[row][col];
+
+	else if (t == INT)
+		return (float)aI[row][col];
 }
 
 void Matrix::set(int row, int col, int val){
-//TODO
+	
 
 }
 
@@ -134,7 +221,7 @@ Matrix* Matrix::append(Matrix* a, type dir){
 	return c;
 }
 
-Matrix* subMat(int row1, int col1, int row2, int col2){
+Matrix* subMat(const int row1, const int col1, const int row2, const int col2){
 //TODO
 	Matrix* c = new Matrix;
 	return c;

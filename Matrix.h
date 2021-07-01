@@ -35,11 +35,11 @@ class Matrix {
 		//constructors
 		Matrix(); //init empty matrix
 		Matrix(Matrix* m); //copy matrix
-		Matrix(int rows, int cols); //init Matrix of rows x cols dim
-		Matrix(int rows, int cols, type t); //init Matrix of rows x cols dim of specified type
-		Matrix(int rows, int cols, int i); //init Matrix with each value being i
-	       	Matrix(int rows, int cols, float f); //init Matrix with each value being f
-		Matrix(int rows, int cols, type t, float mean, float std); //init matrix with random values
+		Matrix(const int rows, const int cols); //init Matrix of rows x cols dim
+		Matrix(const int rows, const int cols, type typ); //init Matrix of rows x cols dim of specified type
+		Matrix(const int rows, const int cols, int i); //init Matrix with each value being i
+	       	Matrix(const int rows, const int cols, float f); //init Matrix with each value being f
+		Matrix(const int rows, const int cols, type typ, float mean, float std); //init matrix with random values
 		Matrix(Matrix* a, Matrix* b); //for overloading matrix/matrix matrix operations
 		Matrix(Matrix* a, int b); // for overloading matrix/int operations
 		Matrix(Matrix* a, float b); //for overloading matrix/float operations
@@ -49,7 +49,7 @@ class Matrix {
 		int cols(); //returns number of columns in matrix
 		type getType(); //returns type of matrix
 		void print(); //prints matrix
-		void setType(type t); //set type of Matrix
+		void setType(type typ); //set type of Matrix
 		void fill(int i); //fill all values of Matrix with i (int)
 		void fillf(float f); //fill all values of Matrix with f (float)
 		int get(int row, int col); //return value as int
@@ -63,7 +63,7 @@ class Matrix {
 		
 		//opertaions
 		Matrix* append(Matrix* a, type dir); //apends matrix a to current, type changes direction
-		Matrix* subMat(int row1, int col1, int row2, int col2); //returns a submatrix in the bounds given
+		Matrix* subMat(const int row1, const int col1, const int row2, const int col2); //returns a submatrix in the bounds given
 		Matrix* tile(Matrix* a); //returns a matrix that is a tiling of this by Matrix a
 		int determinant(); //get determinant of matrix as int
 		float determinantf(); //get determinant of matrix as float
@@ -90,6 +90,7 @@ class Matrix {
 	private:
 		int r; //number of rows
 		int c; //number of columns
+		type t; //type of matrix
 		int** aI; //array of the matrix as int
 		float** aF; //array of matrix as float
 };

@@ -35,8 +35,12 @@ void t(string test, string desc){
 }	
 //print error message
 void e(string msg){
-	cout << "\033[1;33m" << msg << endl << " --------  " << "\033[0m" << endl;
+	cout << "\033[1;33m" << msg  << endl << endl;
 }	
+
+void e2(){
+	cout << "\033[0m" << endl;
+}
 //start tests
 //Constructor tests:
 void test_declare(){
@@ -46,6 +50,7 @@ void test_declare(){
 	if(a == nullptr){
 		f();
 		e("a is nullptr\n");
+		e2();
 	}
 	else s();
 
@@ -59,7 +64,7 @@ void test_rowcol(){
 	if (a->rows() == 2 && a->cols() == 3){
 		s();
 	}
-	else {f(); e("rows or cols do not match");}
+	else {f(); e("rows or cols do not match"); e2();}
 	
 	delete a;
 }
@@ -74,7 +79,7 @@ void test_typedec(){
 	if (a->rows() == 2 && a->cols() == 3){
 		s();
 	}
-	else {f(); e("rows or cols did not match");}
+	else {f(); e("rows or cols did not match"); e2();}
 
 	
 	t("test_typedec", "rows & cols of FLOAT matrix");
@@ -88,13 +93,13 @@ void test_typedec(){
 	if (a->getType() == INT){
 		s();
 	}
-	else {f(); e("matrix is not of type INT");}
+	else {f(); e("matrix is not of type INT"); e2();}
 
 	t("test_typedec", "type FLOAT");
 	if (b->getType() == FLOAT){
 		s();
 	}
-	else {f(); e("matrix is not of type FLOAT");}
+	else {f(); e("matrix is not of type FLOAT"); e2();}
 
 	delete a;
 	delete b;
@@ -111,18 +116,18 @@ void test_valuedec(){
 	t("test_valuedec", "INT values");
 	for(int rows = 0; rows < a->rows(); rows++){
 		for (int cols = 0; cols < a->cols(); cols++){
-			cout << a->get(rows, cols) << endl;
 			if (a->get(rows, cols) != test_i){
 				f();
 				e("one of the INT values does not match");
 				cout << "matrix at " << rows << "," << cols << "!= " << test_i << endl;
+				e2();
 				bad = 1;
 				break;
 			}
 		}
 	}	
 	if (a->rows() != 0 && a->cols() != 0 && bad != 1) s(); 
-	else if (bad != 1) {f(); e("rows or cols = 0");}
+	else if (bad != 1) {f(); e("rows or cols = 0"); e2();}
 
 	bad = 0;
 	t("test_valuedec", "FLOAT values");
@@ -132,13 +137,14 @@ void test_valuedec(){
 				f();
 				e("one of the FLOAT values does not match");
 				cout << "matrix at " << rows << "," << cols << "!= " << test_f << endl;
+				e2();
 				bad = 1;
 				break;
 			}
 		}
 	}
 	if (b->rows() != 0 && b->cols() != 0 && bad != 1) s(); 
-	else if (bad != 1) {f(); e("rows or cols = 0");}
+	else if (bad != 1) {f(); e("rows or cols = 0"); e2();}
 
 	delete a;
 	delete b;
@@ -150,11 +156,11 @@ void test_arrange(){
 	t("test_arrange", "type INT");
 	if (a->getType() == INT)
 		s();
-	else {f(); e("matrix is not of type INT");}
+	else {f(); e("matrix is not of type INT"); e2();}
 
 
 	t("test_arrange", "correct values");
-	int i = 0; //iterates every index, follows the expected behavior of arrange
+	int i = 1; //iterates every index, follows the expected behavior of arrange
 	int bad = 0; //flag for bad values
 	for (int rows = 0; rows < a->rows(); rows++){
 		for (int cols = 0; cols < a->cols(); cols++){
@@ -162,28 +168,31 @@ void test_arrange(){
 				bad = 1;
 				f();
 				e("one of the values did not match");
-				cout << "expected: " << "matrix at " << rows << "," << cols << "==" << i << 
+				cout << "expected: " << "matrix at " << rows;
+			       	cout << "," << cols << " == " << i << 
 					", matrix at " << rows << "," << cols << "=" << a->get(rows,cols) << endl;
+				e2();
 				break;
 			}
 			i++;
 		}
+		if (bad) break;
 	}
-	if(a->rows() != 0 && a->cols() != 0) s();
-	else if (bad != 1) {f(); e("either row or col is 0");}
+	if(a->rows() != 0 && a->cols() != 0 && !bad) s();
+	else if (bad != 1) {f(); e("either row or col is 0"); e2();}
 
 	delete a;
 }
 
 void test_randdec(){
 	//test the random declaration
-	float rand1 = 5;
-	float rand2 = 1;
+	float std1 = 5;
+	float std2 = 1;
 	float mean1 = 5;
 	float mean2 = 0;
 	//using lrge matrixes for rand test to increase chance of finding bad values
-	Matrix* a = new Matrix(100, 10, RAND, mean1, rand1);
-	Matrix* b = new Matrix(50, 70, RAND, mean2, rand2);
+	Matrix* a = new Matrix(100, 10, RAND, mean1, std1);
+	Matrix* b = new Matrix(50, 70, RAND, mean2, std2);
 
 	t("test_randec", "type float");
 	if (a->getType() == FLOAT && b->getType() == FLOAT) {
@@ -195,37 +204,41 @@ void test_randdec(){
 	t("test_randec", "values in bounds (1)");
 	for(int rows = 0; rows < a->rows(); rows++){
 		for (int cols = 0; cols < a->cols(); cols++){
-			if (a->getf(rows, cols) < mean1 - rand1 || a->getf(rows,cols) > mean1 + rand1){
+			if (a->getf(rows, cols) < mean1 - std1 || a->getf(rows,cols) > mean1 + std1){
 				f();
 				e("one of the random values is out of bounds");
 				cout << "Matrix at " << rows << "," << cols << ", result found: "; 
-				cout << mean1 - rand1 << " <= " << a->getf(rows,cols) << " <= ";
-				cout << mean1 + rand1 << endl;
+				cout << mean1 - std1 << " <= " << a->getf(rows,cols) << " <= ";
+				cout << mean1 + std1 << endl;
 				bad = 1;
+				e2();
 				break;
 			}
 		}
+		if (bad) break;
 	}
-	if (a->rows() != 0 && a->cols() != 0) s();
-	else if (bad != 1) {f(); e("rows or cols = 0");}
+	if (a->rows() != 0 && a->cols() != 0 && !bad) s();
+	else if (bad != 1) {f(); e("rows or cols = 0"); e2();}
 
 	bad = 0;
 	t("test_randec", "values in bounds (2)");
 	for(int rows = 0; rows < b->rows(); rows++){
 		for (int cols = 0; cols < b->cols(); cols++){
-			if (b->getf(rows, cols) < mean1 - rand1 || b->getf(rows,cols) > mean1 + rand1){
+			if (b->getf(rows, cols) < mean2 - std2 || b->getf(rows,cols) > mean2 + std2){
 				f();
 				e("one of the random values is out of bounds");
 				cout << "Matrix at " << rows << "," << cols << ", result found: ";
-				cout << mean2 - rand2 << " <= " << b->getf(rows,cols);
-			       	cout << " <= " << mean2 + rand2 << endl;
+				cout << mean2 - std2 << " <= " << b->getf(rows,cols);
+			       	cout << " <= " << mean2 + std2 << endl;
 				bad = 1;
+				e2();
 				break;
 			}
 		}
+		if (bad) break;
 	}
-	if (b->rows() != 0 && b->cols() != 0) s();
-	else if (bad != 1) {f(); e("rows or cols = 0");}
+	if (b->rows() != 0 && b->cols() != 0 && !bad) s();
+	else if (bad != 1) {f(); e("rows or cols = 0"); e2();}
 	
 	delete a;
 	delete b;
@@ -285,6 +298,7 @@ void test_fill(){
 				break;
 			}
 		}		
+		if (bad) break;
 	}
 	if (c->rows() != 0 && c->cols() != 0 && bad != 1) {s();} 
 	else if (bad != 1) {f(); e("either rows or cols is 0");}
@@ -302,6 +316,7 @@ void test_fill(){
 				break;
 			}
 		}		
+		if (bad) break;
 	}
 	if (c->rows() != 0 && c->cols() != 0 && bad != 1) {s();} 
 	else if (bad != 1) {f(); e("either rows or cols is 0");}
@@ -313,12 +328,12 @@ void test_fill(){
 void test_set(){ //skip get() becuse its used in other tests
 	Matrix* a = new Matrix(4,5, (int)3);
 	Matrix* b = new Matrix(3,4, (float)6);
-	
+
 	a->set(3,4,6);
 	b->setf(1,2, 4.5);
 
 	t("test_set", "set INT to other INT");
-	if (a->get(4,5) == 6){
+	if (a->get(3,4) == 6){
 		s();
 	}
 	else{
@@ -328,13 +343,13 @@ void test_set(){ //skip get() becuse its used in other tests
 	}
 
 	t("test_set", "set FLOAT to other FLOAT");
-	if (b->getf(3,4) == 4.5){
+	if (b->getf(2,3) == 4.5){
 		s();
 	}
 	else{
 		f();
 		e("did not get expected value");
-		cout << "got: " << b->get(3,4) << " ,but expected: 4.5" << endl;
+		cout << "got: " << b->get(2,3) << " ,but expected: 4.5" << endl;
 	}
 
 	delete a;
