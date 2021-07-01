@@ -14,11 +14,11 @@ Operator overide: Allows users to do Matrix opertions using only simple operator
  * Makefile: Complete (Makefile)
  * Unit tests: In progress (tests.h and test.cpp)
     * Constructors: Complete
-    * Basic operations: In Progress
+    * Basic operations: Complete
     * Matrix Operations: TODO
     * Operator overide: TODO
  * Integration tests: TODO
- * Constructor imp: TODO
+ * Constructor imp: In progress
  * Basic operations imp: TODO
  * Matrix operations imp: TODO
  * Operator overide imp: TODO
