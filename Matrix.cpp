@@ -8,7 +8,7 @@
 #include <iostream>
 #include <stdlib.h> // for random numbers
 #include <time.h> // for random numbers
-
+#include <assert.h>
 
 #include "Matrix.h"
 
@@ -25,6 +25,14 @@ Matrix::Matrix (Matrix* m){
 }
 
 Matrix::Matrix (const int rows, const int cols){
+	if( rows <= 0 || cols <= 0){
+		cout << "error at Matrix declaration: " << endl;
+		cout << "either rows or cols is <= 0" << endl;
+		cout << "rows: " << rows << endl;
+		cout << "cols: " << cols << endl;
+		assert(0);
+	}
+	
 	aI = new int*[rows];
 	for(int i = 0; i < rows; i++)
 		aI[i] = new int[cols];
@@ -33,6 +41,13 @@ Matrix::Matrix (const int rows, const int cols){
 }
 
 Matrix::Matrix (const int rows, const int cols, type typ){
+	if( rows <= 0 || cols <= 0){
+		cout << "error at Matrix declaration: " << endl;
+		cout << "either rows or cols is <= 0" << endl;
+		cout << "rows: " << rows << endl;
+		cout << "cols: " << cols << endl;
+		assert(0);
+	}
 	if(typ == INT){
 		aI = new int*[rows];
 		for(int i = 0; i < rows; i++)
@@ -60,12 +75,23 @@ Matrix::Matrix (const int rows, const int cols, type typ){
 			}
 		}
 	}
-
+	else {
+		cout << "Type inputed is invalid" << endl;
+		assert(0);
+	}
 	r = rows;
 	c = cols;
 }
 
 Matrix::Matrix (const int rows, const int cols, int i){
+	if( rows <= 0 || cols <= 0){
+		cout << "error at Matrix declaration: " << endl;
+		cout << "either rows or cols is <= 0" << endl;
+		cout << "rows: " << rows << endl;
+		cout << "cols: " << cols << endl;
+		assert(0);
+	}
+
 	aI = new int*[rows];
 	for(int l = 0; l < rows; l++)
 		aI[l] = new int[cols];
@@ -81,6 +107,13 @@ Matrix::Matrix (const int rows, const int cols, int i){
 }
 
 Matrix::Matrix (const int rows, const int cols, float f){
+	if( rows <= 0 || cols <= 0){
+		cout << "error at Matrix declaration: " << endl;
+		cout << "either rows or cols is <= 0" << endl;
+		cout << "rows: " << rows << endl;
+		cout << "cols: " << cols << endl;
+		assert(0);
+	}
 	aF = new float*[rows];
 	for(int i = 0; i < rows; i++)
 		aF[i] = new float[cols];
@@ -98,6 +131,13 @@ Matrix::Matrix (const int rows, const int cols, float f){
 }
 
 Matrix::Matrix (const int rows, const int cols, type typ, float mean, float std){
+	if( rows <= 0 || cols <= 0){
+		cout << "error at Matrix declaration: " << endl;
+		cout << "either rows or cols is <= 0" << endl;
+		cout << "rows: " << rows << endl;
+		cout << "cols: " << cols << endl;
+		assert(0);
+	}
 	aF = new float*[rows];
 	for(int i = 0; i < rows; i++)
 		aF[i] = new float[cols];
@@ -158,8 +198,34 @@ void Matrix::print(){
 
 }
 
-void Matrix::setType(type t){
-//TODO
+void Matrix::setType(type typ){
+	if (typ == INT && t == FLOAT){
+		aI = new int*[r];
+		for (int i = 0; i < r; i++){
+			aI[i] = new int[c];
+		}
+		for (int row = 0; row < r; row++){
+			for( int col = 0; col < c; col++){
+				aI[row][col] = (int)aF[row][col];
+			}
+		}
+	}
+	else if (typ == FLOAT && t == INT){
+		aF = new float*[r];
+		for (int i = 0; i < r; i++){
+			aF[i] = new float[c];
+		}
+		for (int row = 0; row < r; row++){
+			for( int col = 0; col < c; col++){
+				aF[row][col] = (float)aI[row][col];
+			}
+		}
+
+	}
+	else{
+		cout << "invalid type entered" << endl;
+		assert(0);
+	}
 
 }
 
