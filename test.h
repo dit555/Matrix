@@ -308,10 +308,10 @@ void test_fill(){
 	d->fillf(fill_f);
 	for (int i = 0; i < d->rows(); i++){
 		for (int j = 0; j < d->cols(); j++){
-			if(d->get(i,j) != fill_i){
+			if(d->getf(i,j) != fill_f){
 				f();
 				e("did not get the correct value for FLOAT");
-				cout << "expected: " << fill_i << " but got: " << d->get(i,j) << " at " << i << "," << j << endl;
+				cout << "expected: " << fill_f << " but got: " << d->getf(i,j) << " at " << i << "," << j << endl;
 				bad = 1;
 				break;
 			}
@@ -343,7 +343,7 @@ void test_set(){ //skip get() becuse its used in other tests
 	}
 
 	t("test_set", "set FLOAT to other FLOAT");
-	if (b->getf(2,3) == 4.5){
+	if (b->getf(1,2) == 4.5){
 		s();
 	}
 	else{

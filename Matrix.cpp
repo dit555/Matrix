@@ -199,8 +199,12 @@ void Matrix::print(){
 }
 
 void Matrix::setType(type typ){
-	if (typ == INT && t == FLOAT){
+	if(typ == t){
+		; //do nothing
+	}
+	else if (typ == INT && t == FLOAT){
 		aI = new int*[r];
+		t = typ;
 		for (int i = 0; i < r; i++){
 			aI[i] = new int[c];
 		}
@@ -209,9 +213,11 @@ void Matrix::setType(type typ){
 				aI[row][col] = (int)aF[row][col];
 			}
 		}
+		delete aF;
 	}
 	else if (typ == FLOAT && t == INT){
 		aF = new float*[r];
+		t = typ;
 		for (int i = 0; i < r; i++){
 			aF[i] = new float[c];
 		}
@@ -220,6 +226,7 @@ void Matrix::setType(type typ){
 				aF[row][col] = (float)aI[row][col];
 			}
 		}
+		delete aI;
 
 	}
 	else{
@@ -230,12 +237,26 @@ void Matrix::setType(type typ){
 }
 
 void Matrix::fill(int i){
-//TODO
+	if(t == FLOAT){
+		this->setType(INT);
+	}
+	for (int row = 0; row < r; row++){
+		for (int col = 0; col < c;col++){
+			aI[row][col] = i;
+		}
+	}
 
 }
 
 void Matrix::fillf(float f){
-//TODO
+	if(t == INT){
+		this->setType(FLOAT);
+	}
+	for (int row = 0; row < r; row++){
+		for (int col = 0; col < c;col++){
+			aF[row][col] = f;
+		}
+	}
 
 }
 
@@ -255,12 +276,16 @@ float Matrix::getf(int row, int col){
 }
 
 void Matrix::set(int row, int col, int val){
-	
+	if (t == FLOAT)
+		this->setType(INT);
+	aI[row][col] = val;	
 
 }
 
 void Matrix::setf(int row, int col, float val){
-//TODO
+	if (t == INT)
+		this->setType(FLOAT);
+	aF[row][col] = val;
 
 }
 
