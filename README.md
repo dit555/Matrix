@@ -18,8 +18,8 @@ Operator overide: Allows users to do Matrix opertions using only simple operator
     * Matrix Operations: TODO
     * Operator overide: TODO
  * Integration tests: TODO
- * Constructor imp: In progress
- * Basic operations imp: TODO
+ * Constructor imp: Complete
+ * Basic operations imp: In progress
  * Matrix operations imp: TODO
  * Operator overide imp: TODO
 
